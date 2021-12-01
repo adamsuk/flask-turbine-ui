@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Turbine Health</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+  </head>
+  <body>
+    {% if name %}
+      <h1>Turbine: {{ name }}</h1>
+      <button><a href="/" class="button">Home</a></button>
+    {% else %}
+      <h1>Turbine Health Check</h1>
+      <button><a href="/" class="button">Refresh</a></button>
+    {% endif %}
+    {% if error %}
+      <h2>ERROR:</h2>
+      <p>{{ error }}</p>
+    {% endif %}
+    {% if column_names %}
+      <table class="sortable">
+        <thead>
+          <tr>
+              {% for col in column_names %}
+              <th>{{col}}</th>
+              {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in row_data %}
+          <tr>
+              {% for col, row_ in zip(column_names, row) %}
+              {% if col == link_column %}
+              <td>
+                  <a href="/turbine/{{ row_ }}">{{ row_ }}</a>
+              </td>
+              {% else %}
+              <td>{{row_}}</td>
+              {% endif %}
+              {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </body>
+</html>
